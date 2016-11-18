@@ -57,6 +57,13 @@ public class FXMLStackViewController implements Initializable {
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        pushButton.setVisible(false);
+        topButton.setVisible(false);
+        popButton.setVisible(false);
+        isEmptyButton.setVisible(false);
+        isFullButton.setVisible(false);
+        emptyButton.setVisible(false);
+        pushTextField.setVisible(false);
         // TODO
         items = stackListView.getItems();
         stackListView.setVisible(false);
@@ -122,6 +129,14 @@ public class FXMLStackViewController implements Initializable {
 
     @FXML
     private void createButtonFired(ActionEvent event) {
+        pushButton.setVisible(true);
+        topButton.setVisible(true);
+        popButton.setVisible(true);
+        isEmptyButton.setVisible(true);
+        isFullButton.setVisible(true);
+        emptyButton.setVisible(true);
+        pushTextField.setVisible(true);
+        
         stackListView.setVisible(true);
        mStack = JStack.create();
     }
