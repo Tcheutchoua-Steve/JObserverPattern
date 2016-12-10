@@ -7,83 +7,78 @@
 package StackImplementation;
 
 import com.sun.javafx.applet.ExperimentalExtensions;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
  * @author TcheutchouaSteve
  */
-public class JStack {
+public class JStack extends Observable {
     
     private int index ; 
     private int MAX = 10; 
     private int[] myArray; 
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public int getMAX() {
-        return MAX;
-    }
-
-    public void setMAX(int MAX) {
-        this.MAX = MAX;
-    }
+    private static List<Observer> observerList ;
+    
     
     public JStack(int max){
         this.MAX = max ;
        this.myArray = new int [MAX];
        this.index = -1;
+       observerList = new ArrayList<>();
+       hasChanged();
+        notifyObservers(observerList);
     }
+    
     
     // create and return a stack object
     public static JStack create(){
         JStack p = new JStack(100);
         return p;
     }
+
     
-    /*public  void create(){
-        this.myArray = new int[this.MAX];
-    }*/
     
     //Take an elt and add it at the top of the stack
     public void push (int elt){
         if(!isFull()){
             this.myArray[this.index+1] = elt ;
             this.index++;
+            notifyObservers();
         }
     }
-    
+       
     //removes the element at the top of the stack
     public int pop (){
-       // myArray = ArrayUtils.removeElement(myArray, myArray[index]);
         if(!isEmpty()){
             int toPop = this.myArray[index] ;
             this.myArray = (int[])ArrayUtils.removeElement(this.myArray, this.myArray[index]);
-            //myArray[index] = null ;
             this.index -- ;
+            setChanged();           // mark as value changed
+            notifyObservers(5);     // trigger notification
+            
             return toPop;
         }
         else throw new IndexOutOfBoundsException("The Stack is empty");
     }
-    
+       
     public void empty(){
         // create a new object array with the same length
         index = -1 ;
+        notifyObservers();
     }
-    
+      
     public boolean isEmpty(){
         if (this.index < 0 )
             return true ;
         else
             return false;
     }
-    
+      
     public boolean isFull(){
         // array is full when the index correspond to the size of the stack
         if(this.index == this.MAX - 1)
@@ -91,7 +86,7 @@ public class JStack {
         else
             return false ; 
     }
-    
+      
     public int top() throws Exception{
         if(this.index < 0){
             Exception ex = new Exception("There are no elements in top you can't "
@@ -102,14 +97,24 @@ public class JStack {
             return this.myArray[this.index];
     }
 
-    @Override
+    
+    /*@Override
     public String toString() {
         String display = "" ;
         for (int i = 0; i <= index; i++) {
             display += this.myArray[i] + " ";
         }
         return  display;
+    }*/
+
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o); 
+        if(o != null){
+            observerList.add(o);
+        }
     }
+    
     
     
 }
