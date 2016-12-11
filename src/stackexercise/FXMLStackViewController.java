@@ -7,10 +7,13 @@
 package stackexercise;
 
 import StackImplementation.JStack;
+import StackImplementation.StackCMPrompt;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +30,7 @@ import org.controlsfx.dialog.Dialogs;
  *
  * @author TcheutchouaSteve
  */
-public class FXMLStackViewController implements Initializable {
+public class FXMLStackViewController implements Initializable, Observer {
     
     private Label label;
     @FXML
@@ -51,7 +54,8 @@ public class FXMLStackViewController implements Initializable {
     
     ObservableList<Integer> items ;
    
-    JStack mStack;
+    JStack stack;
+    StackCMPrompt stackCmPrompt ;
     @FXML
     private Button createButton;
    
@@ -72,21 +76,23 @@ public class FXMLStackViewController implements Initializable {
     @FXML
     private void pushButtonFired(ActionEvent event) {
         //mStack.push(Integer.valueOf(pushTextField.getText()));
-        
-        mStack.push(Integer.valueOf(pushTextField.getText()));
-        
+        if(!pushTextField.getText().trim().isEmpty()){
+        stack.push(Integer.valueOf(pushTextField.getText()));
         try {
-            items.add(0,mStack.top());
+            items.add(0,stack.top());
             pushTextField.clear();
         } catch (Exception ex) {
             giveMessage(AlertType.ERROR, "No Element To ADD", "Add An Element", ex.getMessage());
         }
+       }
+        else 
+            giveMessage(AlertType.ERROR, "No Element To ADD", "Add An Element", "Input field should not be empty");
     }
 
     @FXML
     private void topButtonFired(ActionEvent event) {
         try {
-            giveMessage(AlertType.INFORMATION,"TOP Button","Top Button requested","Top Button is " + mStack.top());
+            giveMessage(AlertType.INFORMATION,"TOP Button","Top Button requested","Top Button is " + stack.top());
         } catch (Exception ex) {
             giveMessage(AlertType.ERROR, "TOP Element", "No Top Element", ex.getMessage());
         }
@@ -95,8 +101,8 @@ public class FXMLStackViewController implements Initializable {
     @FXML
     private void popButtonFired(ActionEvent event) {
         //Dialogs.create().title("Pop Button").message("Top Value is" + items.get(0)).showInformation();
-        if(!mStack.isEmpty()) {
-            mStack.pop();
+        if(!stack.isEmpty()) {
+            stack.pop();
             items.remove(0);
         }
         else 
@@ -105,14 +111,14 @@ public class FXMLStackViewController implements Initializable {
 
     @FXML
     private void emptyButtonClicked(ActionEvent event) {
-        mStack.empty();
+        stack.empty();
         items.clear();
     }
 
     @FXML
     private void isEmptyButtonClicked(ActionEvent event) {
         //()
-        if(mStack.isEmpty())
+        if(stack.isEmpty())
             giveMessage(AlertType.ERROR, "ISEMPTY BUTTON", "Stack Empty", "Your Stack is emtpy");
         else 
             giveMessage(AlertType.ERROR, "ISEMPTY BUTTON", "Stack Not Empty", "Your Stack is NOT emtpy");
@@ -121,7 +127,7 @@ public class FXMLStackViewController implements Initializable {
 
     @FXML
     private void isFullButtonClicked(ActionEvent event) {
-        if(mStack.isFull())
+        if(stack.isFull())
             giveMessage(AlertType.ERROR, "ISFULL BUTTON", "Stack full", "Your Stack is full");
         else 
             giveMessage(AlertType.ERROR, "ISFULL BUTTON", "Stack Not full", "Your Stack is Not full");
@@ -138,7 +144,11 @@ public class FXMLStackViewController implements Initializable {
         pushTextField.setVisible(true);
         
         stackListView.setVisible(true);
-       mStack = JStack.create();
+       stack = JStack.create();
+       this.stackCmPrompt = new StackCMPrompt(this.stack) ;
+       this.stack.addObserver(this);
+       this.stack.addObserver(stackCmPrompt);
+       stackCmPrompt.start();
     }
     
     public void giveMessage(AlertType alertType, String title, String headerText, String context){
@@ -148,5 +158,23 @@ public class FXMLStackViewController implements Initializable {
         alert.setContentText(context);
 
         alert.showAndWait();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Platform.runLater(() -> {
+            System.out.println("Something happened in the Stack class " + arg);
+            if (Integer.valueOf(arg.toString()) == 0) {
+                try {
+                    items.add(0, this.stack.top());
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if (Integer.valueOf(arg.toString()) == 1) {
+                items.remove(0);
+            } else {
+                items.clear();
+            }
+        });
     }
 }

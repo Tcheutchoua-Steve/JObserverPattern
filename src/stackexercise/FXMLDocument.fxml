@@ -33,18 +33,18 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="314.0">
                <children>
-                  <TextField fx:id="pushTextField" layoutX="22.0" layoutY="95.0" prefHeight="25.0" prefWidth="125.0" />
+                  <TextField fx:id="pushTextField" layoutX="33.0" layoutY="83.0" prefHeight="25.0" prefWidth="275.0" />
                   <Label graphicTextGap="6.0" layoutX="56.0" layoutY="30.0" text="LIST  OF  OPERATIONS" textAlignment="CENTER" underline="true">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Button fx:id="pushButton" layoutX="234.0" layoutY="95.0" mnemonicParsing="false" onAction="#pushButtonFired" prefHeight="25.0" prefWidth="125.0" text="PUSH" />
-                  <Button fx:id="topButton" layoutX="22.0" layoutY="137.0" mnemonicParsing="false" onAction="#topButtonFired" prefHeight="25.0" prefWidth="125.0" text="TOP" />
-                  <Button fx:id="popButton" layoutX="133.0" layoutY="195.0" mnemonicParsing="false" onAction="#popButtonFired" prefHeight="25.0" prefWidth="101.0" text="POP" />
-                  <Button fx:id="emptyButton" layoutX="127.0" layoutY="252.0" mnemonicParsing="false" onAction="#emptyButtonClicked" prefHeight="25.0" prefWidth="108.0" text="EMPTY" />
-                  <Button fx:id="isEmptyButton" layoutX="41.0" layoutY="322.0" mnemonicParsing="false" onAction="#isEmptyButtonClicked" prefHeight="25.0" prefWidth="108.0" text="IS-EMTPY" />
-                  <Button fx:id="isFullButton" layoutX="206.0" layoutY="322.0" mnemonicParsing="false" onAction="#isFullButtonClicked" prefHeight="25.0" prefWidth="91.0" text="IS-FULL" />
+                  <Button fx:id="pushButton" layoutX="33.0" layoutY="144.0" mnemonicParsing="false" onAction="#pushButtonFired" prefHeight="25.0" prefWidth="275.0" text="PUSH" />
+                  <Button fx:id="topButton" layoutX="33.0" layoutY="207.0" mnemonicParsing="false" onAction="#topButtonFired" prefHeight="25.0" prefWidth="275.0" text="TOP" />
+                  <Button fx:id="popButton" layoutX="33.0" layoutY="257.0" mnemonicParsing="false" onAction="#popButtonFired" prefHeight="25.0" prefWidth="275.0" text="POP" />
+                  <Button fx:id="emptyButton" layoutX="33.0" layoutY="303.0" mnemonicParsing="false" onAction="#emptyButtonClicked" prefHeight="25.0" prefWidth="275.0" text="EMPTY" />
+                  <Button fx:id="isEmptyButton" layoutX="33.0" layoutY="361.0" mnemonicParsing="false" onAction="#isEmptyButtonClicked" prefHeight="25.0" prefWidth="108.0" text="IS-EMTPY" />
+                  <Button fx:id="isFullButton" layoutX="203.0" layoutY="361.0" mnemonicParsing="false" onAction="#isFullButtonClicked" prefHeight="25.0" prefWidth="108.0" text="IS-FULL" />
                   <Button fx:id="createButton" layoutX="64.0" layoutY="408.0" mnemonicParsing="false" onAction="#createButtonFired" prefHeight="25.0" prefWidth="230.0" text="CREATE" />
                </children>
             </AnchorPane>

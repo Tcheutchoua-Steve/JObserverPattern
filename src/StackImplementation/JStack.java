@@ -30,7 +30,7 @@ public class JStack extends Observable {
        this.myArray = new int [MAX];
        this.index = -1;
        observerList = new ArrayList<>();
-       hasChanged();
+       setChanged();
         notifyObservers(observerList);
     }
     
@@ -48,7 +48,8 @@ public class JStack extends Observable {
         if(!isFull()){
             this.myArray[this.index+1] = elt ;
             this.index++;
-            notifyObservers();
+            //setChanged();
+            notifyObservers(elt);
         }
     }
        
@@ -58,7 +59,7 @@ public class JStack extends Observable {
             int toPop = this.myArray[index] ;
             this.myArray = (int[])ArrayUtils.removeElement(this.myArray, this.myArray[index]);
             this.index -- ;
-            setChanged();           // mark as value changed
+            //setChanged();           // mark as value changed
             notifyObservers(5);     // trigger notification
             
             return toPop;
@@ -69,6 +70,7 @@ public class JStack extends Observable {
     public void empty(){
         // create a new object array with the same length
         index = -1 ;
+        //setChanged();
         notifyObservers();
     }
       
